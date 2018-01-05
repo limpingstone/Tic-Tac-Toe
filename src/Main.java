@@ -17,6 +17,8 @@ public class Main extends Application {
 	/** Stores the turn of the players */
 	private static int counter = 0;
 	
+	private static String textOnTop;
+	
 	/** The display of the 3 x 3 Tic Tac Toe grid */
 	private static GridPane gridPane;
 	
@@ -32,7 +34,8 @@ public class Main extends Application {
 		
 		playerPrompt();
 		
-		borderPane.setTop(new Text("Your Turn"));
+		setTextOnTop("Your Turn");
+		borderPane.setTop(new Text(getTextOnTop()));
 		// borderPane.setCenter(new Button("Reset"));
 		borderPane.setBottom(gridPane);
 		
@@ -135,7 +138,7 @@ public class Main extends Application {
 			}
 		}
 		
-		endGame();
+		showStatus();
 	}
 	
 	/**
@@ -149,25 +152,29 @@ public class Main extends Application {
 			System.out.println("Grid: [" + clickedButton.getRow() + "][" + clickedButton.getCol() + "]");
 		}
 		
-		endGame();
+		showStatus();
 	}
 	
 	/**
 	 * The method that changes the status displayed on the top of the program. 
 	 */
-	public static boolean endGame() {
+	public static boolean showStatus() {
 		
 		if (xWins()) {
-			borderPane.setTop(new Text("X Wins!"));
+			setTextOnTop("X Wins!");
+			borderPane.setTop(new Text(getTextOnTop()));
+			// throw new UnsupportedOperationException();
 			return true;
 		}
 		else if (yWins()) {
-			borderPane.setTop(new Text("O Wins!"));
+			setTextOnTop("O Wins!");
+			borderPane.setTop(new Text(getTextOnTop()));
 			return true;
 		}
 		
 		if (counter == 9 && !xWins() && !yWins()) {
-			borderPane.setTop(new Text("Tie!"));
+			setTextOnTop("Tie!");
+			borderPane.setTop(new Text(getTextOnTop()));
 			return true;
 		}
 		
@@ -261,6 +268,14 @@ public class Main extends Application {
 	
 	public static char getButtonGrid(int col, int row) {
 		return buttonGrid[col][row].getXoMark();
+	}
+	
+	public static void setTextOnTop(String input) {
+		textOnTop = input;
+	}
+	
+	public static String getTextOnTop() {
+		return textOnTop;
 	}
 	
 	/**

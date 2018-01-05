@@ -66,9 +66,38 @@ public class GameAI {
 		case 0: 
 			theAIClicks(1, 1);
 			Main.setCounter(Main.getCounter() + 1);
+			break; 
 			
 		case 2: 
+			// If the player clicks on one of the four corners
+			if (row % 2 == 0 && col % 2 == 0) {
+				if ((int)(Math.random() * 2) == 0) 
+					theAIClicks(2 - col, row);
+				else 
+					theAIClicks(col, 2 - row);
+			}
+			else {
+				// Should get rid of the possibility of landing on the button from across but it did not seem to matter. 
+				randomClicks();
+				
+			}
 			
+			Main.setCounter(Main.getCounter() + 1);
+			break; 
+			
+		case 4: 
+		case 6:
+		case 8:
+			if (foundOneWayWin()) {
+				// Throw
+			}
+			else if (blockedOneWayWin()) {
+				Main.setCounter(Main.getCounter() + 1);
+			}
+			else {
+				randomClicks();
+				Main.setCounter(Main.getCounter() + 1);
+			}
 		}
 		
 		System.out.println("your turn: " + Main.getCounter());
@@ -147,16 +176,21 @@ public class GameAI {
 			
 		case 5:
 		case 7:
-			if (foundOneWayWin()) {
-				// JOptionPane.showMessageDialog(null, computerXoMark == 'x' ? "X Wins!" : "O Wins!");
-				// throw new UnsupportedOperationException();
+			// Broken 
+			if (Main.getTextOnTop() == "Your Turn") {
+				System.out.print(Main.getTextOnTop());
+				if (foundOneWayWin()) {
+					// JOptionPane.showMessageDialog(null, computerXoMark == 'x' ? "X Wins!" : "O Wins!");
+					// throw new UnsupportedOperationException();
+				}
+				else if (blockedOneWayWin())
+					Main.setCounter(Main.getCounter() + 1);
+				else {
+					randomClicks();
+					Main.setCounter(Main.getCounter() + 1);
+				}
 			}
-			else if (blockedOneWayWin())
-				Main.setCounter(Main.getCounter() + 1);
-			else {
-				randomClicks();
-				Main.setCounter(Main.getCounter() + 1);
-			}
+			
 			break;
 		}
 		
@@ -236,7 +270,7 @@ public class GameAI {
 			}
 		}
 		
-		// diagnoal to the left 
+		// Diagonal to the left 
 		if (Main.getButtonGrid(0, 0) == ' ') {
 			if (Main.getButtonGrid(1, 1) == playerXoMark && Main.getButtonGrid(2, 2) == playerXoMark) {
 				theAIClicks(0, 0);
@@ -327,7 +361,7 @@ public class GameAI {
 			}
 		}
 		
-		// diagnoal to the left 
+		// Diagonal to the left 
 		if (Main.getButtonGrid(0, 0) == ' ') {
 			if (Main.getButtonGrid(1, 1) == computerXoMark && Main.getButtonGrid(2, 2) == computerXoMark) {
 				theAIClicks(0, 0);
